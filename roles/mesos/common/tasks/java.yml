@@ -1,0 +1,22 @@
+---
+
+- name: ensure required packages are installed for Java 8
+  apt: name={{item}} state=latest update_cache=yes
+  with_items:
+    - python-software-properties
+
+- name: Add Java repository to sources
+  apt_repository: repo='ppa:webupd8team/java'
+
+- name: Autoaccept license for Java7
+  shell: echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+
+- name: Autoaccept license for Java8
+  shell: echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
+
+- name: Install Java 8
+  apt: pkg={{item}} state=latest install_recommends=yes update_cache=yes
+  with_items:
+    - oracle-java8-installer
+    - oracle-java8-set-default
+

@@ -1,0 +1,52 @@
+---
+
+- name: zookeeper myid
+  shell: hostname | sed -e "s/^.*-0*\([0-9]*\)\$/\1/g" > /etc/zookeeper/conf/myid
+
+
+- name: zookeeper zoo.cfg
+  template: src=zoo.cfg.j2 dest=/etc/zookeeper/conf/zoo.cfg
+  tags: mesos-master
+  notify:
+    - restart zookeeper
+
+- name: stop mesos-slave
+  service: name=mesos-slave state=stopped enabled=no
+
+
+- name: mesos zk
+  template: src=zk.j2 dest=/etc/mesos/zk
+  tags: mesos-master
+  notify:
+    - restart mesos-master
+    - restart marathon
+
+- name: mesos cluster
+  template: src=cluster.j2 dest=/etc/mesos-master/cluster
+  tags: mesos-master
+  notify:
+    - restart mesos-master
+    - restart marathon
+
+
+- name: mesos hostname
+  template: src=hostname.j2 dest=/etc/mesos-master/hostname
+  tags: mesos-master
+  notify:
+    - restart mesos-master
+    - restart marathon
+
+- name: mesos ip
+  template: src=ip.j2 dest=/etc/mesos-master/ip
+  tags: mesos-master
+  notify:
+    - restart mesos-master
+    - restart marathon
+
+- name: mesos quorum
+  template: src=quorum.j2 dest=/etc/mesos-master/quorum
+  tags: mesos-master
+  notify:
+    - restart mesos-master
+    - restart marathon
+

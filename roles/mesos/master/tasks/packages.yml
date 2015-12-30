@@ -1,0 +1,9 @@
+---
+
+- name: install mesos/marathon
+  apt: name={{item}} state=installed update_cache=yes
+  with_items:
+    - mesos
+    - marathon
+
+

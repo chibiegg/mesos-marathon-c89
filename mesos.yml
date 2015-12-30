@@ -1,0 +1,13 @@
+---
+- hosts: slave
+  become: yes
+  roles:
+    - docker
+    - mesos/common
+    - mesos/slave
+
+- hosts: master
+  become: yes
+  roles:
+    - mesos/common
+    - mesos/master

@@ -1,0 +1,11 @@
+---
+- name: apt sources.list
+  copy: src=sources.list dest=/etc/apt/sources.list owner=root mode=0644
+  tags: common
+
+- name: be sure common packages are installed
+  apt: name={{item}} state=installed
+  with_items:
+    - vim
+    - screen
+  tags: common
