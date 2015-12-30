@@ -1,0 +1,33 @@
+---
+
+- name: mesos zk
+  template: src=zk.j2 dest=/etc/mesos/zk
+  tags: mesos-slave
+  notify:
+    - restart mesos-slave
+
+- name: mesos hostname
+  template: src=hostname.j2 dest=/etc/mesos-slave/hostname
+  tags: mesos-slave
+  notify:
+    - restart mesos-slave
+
+- name: mesos ip
+  template: src=ip.j2 dest=/etc/mesos-slave/ip
+  tags: mesos-slave
+  notify:
+    - restart mesos-slave
+
+- name: mesos containerizers
+  template: src=containerizers.j2 dest=/etc/mesos-slave/containerizers
+  tags: mesos-slave
+  notify:
+    - restart mesos-slave
+
+- name: mesos executor_registration_timeout
+  template: src=executor_registration_timeout.j2 dest=/etc/mesos-slave/executor_registration_timeout
+  tags: mesos-slave
+  notify:
+    - restart mesos-slave
+
+

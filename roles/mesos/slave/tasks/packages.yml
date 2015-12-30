@@ -1,0 +1,14 @@
+---
+
+- name: install mesos
+  apt: name={{item}} state=installed update_cache=yes
+  with_items:
+    - mesos
+
+- name: stop mesos-master
+  service: name=mesos-master state=stopped enabled=no
+
+- name: stop zookeeper
+  service: name=zookeeper state=stopped enabled=no
+
+

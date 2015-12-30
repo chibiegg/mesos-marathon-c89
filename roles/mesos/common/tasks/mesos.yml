@@ -1,0 +1,16 @@
+---
+- name: mesos add apt key
+  apt_key: keyserver=keyserver.ubuntu.com id=E56151BF
+  tags: mesos-common
+
+- name: mesos add apt repository
+  shell: |
+    DISTRO=$(lsb_release -is | tr '[:upper:]' '[:lower:]')
+    CODENAME=$(lsb_release -cs)
+    echo "deb http://repos.mesosphere.io/${DISTRO} ${CODENAME} main" > /etc/apt/sources.list.d/mesosphere.list
+  tags: mesos-common
+
+- name: create /var/log/mesos
+  file: path=/var/log/mesos state=directory owner=root group=adm mode=0775
+  tags: mesos-common
+

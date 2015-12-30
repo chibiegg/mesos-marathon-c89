@@ -1,0 +1,15 @@
+---
+
+- name: check docker
+  shell: "which docker && echo 'Found' || echo ''"
+  tags: docker
+  register: docker_installed
+
+- name: install docker
+  shell: curl -sSL https://get.docker.com/ | sudo sh
+  tags: docker
+  when: (not docker_installed.stdout)
+
+- name: ubuntu add docker group
+  user: name=ubuntu group=docker append=yes
+  tags: docker
